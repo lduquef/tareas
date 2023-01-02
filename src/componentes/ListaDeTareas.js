@@ -14,23 +14,42 @@ function ListaDeTareas() {
 			setTareas(tareasActualizadas)
 		}
 	}
+	const eliminarTarea = id => {
+		const tareasActualizadas = tareas.filter(tarea=>tarea.id !== id );
+		setTareas(tareasActualizadas);
+	}
 
-  return (
-	<>
-	<TareaFormulario onSubmit = {agregarTarea}/>
-	<div className='tareas-lista-contenedor'>
-		{
-			tareas.map( (tarea) => 
-			<Tarea
-				key={tarea.id}
-				id={tarea.id}
-				texto={tarea.texto}
-				completada={tarea.completada}
-			/>
-			)
-		}
-	</div>
-	</>
-  );
+	const completarTarea = id => {
+		const tareasActualizadas= tareas.map(tarea =>{
+			if (tarea.id === id) {
+				tarea.completada = !tarea.completada
+			} 
+			return (tarea);
+			});
+			setTareas(tareasActualizadas)
+		};
+	return(
+		<>
+			<TareaFormulario onSubmit = {agregarTarea}/>
+			<div className='tareas-lista-contenedor'>
+				{
+					//  se recorre todos los elementos tarea  y se definen las 
+					// propiedas o props  del componente  que será dibujado
+					tareas.map( (tarea) => 
+					<Tarea
+						key={tarea.id}
+						id={tarea.id}
+						texto={tarea.texto}
+						completada={tarea.completada}
+						eliminarTarea = {eliminarTarea}
+						completarTarea = {completarTarea}
+						// eliminarTarea que se define con una función que modifica el usestate
+						// mediante setTarea pasa al hilo de ejecución del use...
+					/>
+					)
+				}
+			</div>
+		</>
+		)
 }
 export default ListaDeTareas
